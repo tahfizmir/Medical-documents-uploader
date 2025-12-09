@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -44,37 +45,79 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: "20px auto", fontFamily: "sans-serif" }}>
-      <h2>Patient Document Portal</h2>
+    <div className="max-w-3xl mx-auto p-6 font-inter">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        📄 Patient Document Portal
+      </h1>
 
-      <form onSubmit={handleUpload}>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        <button type="submit">Upload</button>
-      </form>
+      {/* Upload Card */}
+      <div className="bg-white shadow-md rounded-xl p-6 mb-6">
+        <h2 className="text-xl font-semibold mb-4">Upload PDF</h2>
 
-      {message && <p>{message}</p>}
+        <form onSubmit={handleUpload} className="flex gap-4 items-center">
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="flex-1 border border-gray-300 rounded-lg p-2"
+          />
 
-      <h3>Your Documents</h3>
-      {docs.length === 0 && <p>No documents yet.</p>}
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Upload
+          </button>
+        </form>
 
-      <ul>
-        {docs.map((doc) => (
-          <li key={doc.id} style={{ marginBottom: 8 }}>
-            {doc.filename} ({Math.round(doc.filesize / 1024)} KB)
-            <button onClick={() => handleDownload(doc.id)} style={{ marginLeft: 8 }}>
-              Download
-            </button>
-            <button onClick={() => handleDelete(doc.id)} style={{ marginLeft: 8 }}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+        {message && (
+          <p className="mt-3 text-green-600 font-medium">{message}</p>
+        )}
+      </div>
+
+      {/* Documents Card */}
+      <div className="bg-white shadow-md rounded-xl p-6">
+        <h2 className="text-xl font-semibold mb-4">Your Documents</h2>
+
+        {docs.length === 0 ? (
+          <p className="text-gray-500">No documents uploaded yet.</p>
+        ) : (
+          <div className="space-y-4">
+            {docs.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex justify-between items-center border-b pb-3"
+              >
+                <div>
+                  <p className="font-medium">{doc.filename}</p>
+                  <p className="text-gray-500 text-sm">
+                    {Math.round(doc.filesize / 1024)} KB •{" "}
+                    {new Date(doc.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleDownload(doc.id)}
+                    className="px-4 py-1.5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+                  >
+                    View
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(doc.id)}
+                    className="px-4 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
+
   );
 }
 
