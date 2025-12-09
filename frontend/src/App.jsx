@@ -30,7 +30,7 @@ function App() {
       setFile(null);
       fetchDocs();
     } catch (err) {
-      setMessage("Upload failed (PDF only?)");
+      setMessage(`Upload failed (PDF only?) with error ${err}`);
     }
   };
 
@@ -40,7 +40,7 @@ function App() {
   };
 
   const handleDownload = (id) => {
-    window.location.href = `${API_URL}/documents/${id}`;
+    window.open(`${API_URL}/documents/${id}`, "_blank");
   };
 
   return (
