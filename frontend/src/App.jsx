@@ -101,7 +101,7 @@ function App() {
                     onClick={() => handleDownload(doc.id)}
                     className="px-4 py-1.5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
                   >
-                    View
+                    Download
                   </button>
 
                   <button
